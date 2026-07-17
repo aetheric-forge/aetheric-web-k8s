@@ -1,0 +1,11 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: aetheric-forge-daily
+  namespace: velero
+spec:
+  schedule: "0 3 * * *"
+  template:
+    includedNamespaces:
+      - aetheric-forge
+    ttl: 720h0m0s # 30 days

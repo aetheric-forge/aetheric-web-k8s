@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: aethericforge-web
+  namespace: aetheric-forge
+
+  annotations:
+    cert-manager.io/cluster-issuer: le-prod
+    metallb.io/address-pool: public-pool
+
+spec:
+  ingressClassName: nginx-public
+  tls:
+    - hosts:
+        - www-dev.aethericforge.ca
+        - www.aethericforge.ca
+        - aethericforge.ca
+      secretName: aethericforge-web-tls
+  rules:
+  - host: www-dev.aethericforge.ca
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: aethericforge-web
+              port:
+                number: 80
+
+  - host: www.aethericforge.ca
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: aethericforge-web
+              port:
+                number: 80
+
+  - host: aethericforge.ca
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: aethericforge-web
+              port:
+                number: 80

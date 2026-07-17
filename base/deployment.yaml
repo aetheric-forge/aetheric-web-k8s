@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: aethericforge-web
+  namespace: aetheric-forge
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: aethericforge-web
+
+  template:
+    metadata:
+      labels:
+        app: aethericforge-web
+
+    spec:
+      containers:
+        - name: aethericforge-web
+
+          image: ghcr.io/aetheric-forge/aethericforge-web:v0.2.0
+
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8080
+
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+
+            limits:
+              cpu: 500m
+              memory: 512Mi
