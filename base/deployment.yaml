@@ -21,7 +21,7 @@ spec:
       containers:
         - name: aethericforge-web
 
-          image: ghcr.io/aetheric-forge/aethericforge-web:v0.2.0
+          image: ghcr.io/aetheric-forge/aethericforge-web:v0.2.1
 
           imagePullPolicy: Always
 
