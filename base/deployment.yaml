@@ -21,12 +21,24 @@ spec:
       containers:
         - name: aethericforge-web
 
-          image: ghcr.io/aetheric-forge/aethericforge-web:v0.2.1
+          image: ghcr.io/aetheric-forge/aethericforge-web:v0.3.0
 
           imagePullPolicy: Always
 
           ports:
             - containerPort: 8080
+
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+              value: "true"
+            - name: SSL_CERT_FILE
+              value: /var/run/aetheric-forge/trust/ca.crt
+
+          envFrom:
+            - secretRef:
+                name: aethericforge-web-config
 
           resources:
             requests:
@@ -36,3 +48,16 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
+
+          volumeMounts:
+            - name: step-ca-root-ca
+              mountPath: /var/run/aetheric-forge/trust
+              readOnly: true
+      volumes:
+        - name: step-ca-root-ca
+          configMap:
+            name: step-ca-root-ca
+            items:
+              - key: ca.crt
+                path: ca.crt
+
