@@ -24,7 +24,7 @@ spec:
         envFrom:
         - secretRef:
             name: aethericforge-web-config
-        image: ghcr.io/aetheric-forge/aethericforge-web:v1.0.0
+        image: ghcr.io/aetheric-forge/aethericforge-web:v1.0.1
         imagePullPolicy: Always
         name: aethericforge-web
         ports:
