@@ -8,7 +8,7 @@ metadata:
   name: aethericforge-web
   namespace: aetheric-forge
 spec:
-  ingressClassName: nginx
+  ingressClassName: nginx-public
   rules:
   - host: www-dev.aethericforge.ca
     http:
