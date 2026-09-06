@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: le-prod
+    external-dns.alpha.kubernetes.io/hostname: www-dev.aethericforge.ca,aethericforge.ca
+    external-dns.alpha.kubernetes.io/target: 212.2.247.176
     nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
   name: aethericforge-web
