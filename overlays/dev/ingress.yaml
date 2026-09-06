@@ -22,26 +22,6 @@ spec:
               number: 80
         path: /
         pathType: Prefix
-  - host: www.aethericforge.ca
-    http:
-      paths:
-      - backend:
-          service:
-            name: aethericforge-web
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
-  - host: aethericforge.ca
-    http:
-      paths:
-      - backend:
-          service:
-            name: aethericforge-web
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
   tls:
   - hosts:
     - www-dev.aethericforge.ca
