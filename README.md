@@ -11,20 +11,23 @@ overlays/dev/  Public ingress and TLS configuration
 
 ## Application configuration secret
 
-Copy `.env.example` to a local file named `.env.aethericforge-web`, replace the example values, and do not commit it.
+The application's configuration lives encrypted at rest in `secrets/aethericforge-web.enc.env`, using [SOPS](https://github.com/getsops/sops) with an `age` recipient (see `.sops.yaml`). Only holders of the matching `age` private key can decrypt it.
 
-Create or update the Kubernetes Secret:
+The application reads ASP.NET Core configuration from these environment variables. Double underscores map to configuration sections; for example, `RabbitMq__Password` maps to `RabbitMq:Password`. `.env.example` documents the expected keys.
+
+To edit the secret values (opens your `$EDITOR` on the decrypted contents, re-encrypts on save):
 
 ```bash
-kubectl create secret generic aethericforge-web-config \
-  --namespace aetheric-forge \
-  --from-env-file=.env.aethericforge-web \
-  --dry-run=client \
-  --output=yaml \
-  | kubectl apply -f -
+sops secrets/aethericforge-web.enc.env
 ```
 
-The application reads ASP.NET Core configuration from these environment variables. Double underscores map to configuration sections; for example, `RabbitMq__Password` maps to `RabbitMq:Password`.
+To create or update the Kubernetes Secret from the encrypted file:
+
+```bash
+./scripts/apply-secrets.sh
+```
+
+This requires `sops`, `kubectl`, and a valid `age` private key available at `$SOPS_AGE_KEY_FILE` (default `~/.config/sops/age/keys.txt`).
 
 After changing the Secret on an existing deployment, restart the workload so the process receives the new environment:
 
