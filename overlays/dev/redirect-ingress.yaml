@@ -5,7 +5,7 @@ metadata:
   namespace: aetheric-forge
   annotations:
     external-dns.alpha.kubernetes.io/controller: ignore
-    nginx.ingress.kubernetes.io/permanent-redirect: https://www-dev.aethericforge.ca$request_uri
+    nginx.ingress.kubernetes.io/permanent-redirect: https://www-dev.aethericforge.ca
     nginx.ingress.kubernetes.io/permanent-redirect-code: "308"
 spec:
   ingressClassName: nginx-public
