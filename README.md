@@ -24,10 +24,10 @@ Both Linux amd64 images are pinned by version and immutable digest:
 
 - `ghcr.io/aetheric-forge/aethericforge-web:v2.0.0`, source commit
   `48a8e3eaf7d0118fb20758b7552727cd8f6e2921`.
-- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.1`, built from the admin working
+- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.2`, built from the admin working
   tree based on `ecc7d35a28dccb5962cbe6c4e7b60381f950dc80`, including the
-  RabbitMQ credential forms and existing bootstrap/login fixes. Immutable digest:
-  `sha256:a868bf8784b7c207f9146d6bb19d086ad311a0bcd11b262aebffb71147b0c73d`.
+  automatic infrastructure setup, RabbitMQ credential forms, and existing bootstrap/login fixes. Immutable digest:
+  `sha256:324ac8b17844eb90f9822f7af66ffdbc808a63d8c5a485285fb80b4c318fa830`.
 
 The website defaults to public-site mode. Full campus mode requires
 `PublicSite__Enabled=false` and the institution-specific credentials described
@@ -85,3 +85,9 @@ Provision admin configuration and the pull Secret before activating that overlay
 Admin access needs private DNS/network access and trust in the internal CA.
 TCP probes verify the listener; verify authenticated SSO and database operations
 after provisioning. Restart each Deployment after its configuration Secret changes.
+
+## Infrastructure setup before University provisioning
+
+Admin v2.0.2 automatically opens `/setup` when required provisioning root credentials are missing. `/university` redirects there until the credential workflow is completed. Existing encrypted credentials are retained for retesting; no manual `Bootstrap__Enabled` change is required. After administrator verification and tested credential save, the browser returns to University setup and normal admin sign-in.
+
+The manifest configures the deployment-owned setup origin as `https://admin.int.aethericforge.ca` and uses the initial `provisioner` client in the configured Keycloak realm. That client needs realm administration permissions and the callback `https://admin.int.aethericforge.ca/setup/signin-oidc`; its secret is supplied through the wizard. The normal admin client remains configured by the existing secret. Keep the admin PVC and root encryption key across updates.

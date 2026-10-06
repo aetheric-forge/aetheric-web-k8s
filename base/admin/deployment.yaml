@@ -20,7 +20,7 @@ spec:
         - name: aetheric-ghcr-secret
       containers:
         - name: aethericforge-admin
-          image: ghcr.io/aetheric-forge/aetheric-admin:v2.0.1@sha256:a868bf8784b7c207f9146d6bb19d086ad311a0bcd11b262aebffb71147b0c73d
+          image: ghcr.io/aetheric-forge/aetheric-admin:v2.0.2@sha256:324ac8b17844eb90f9822f7af66ffdbc808a63d8c5a485285fb80b4c318fa830
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -32,6 +32,10 @@ spec:
               value: "true"
             - name: SSL_CERT_FILE
               value: /var/run/aetheric-forge/trust/ca.crt
+            - name: BootstrapConnection__PublicOrigin
+              value: https://admin.int.aethericforge.ca
+            - name: BootstrapConnection__ClientId
+              value: provisioner
             - name: BootstrapConnection__StateDirectory
               value: /data/bootstrap
             - name: RootCredentials__Directory
