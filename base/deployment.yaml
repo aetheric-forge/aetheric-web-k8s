@@ -24,7 +24,7 @@ spec:
         envFrom:
         - secretRef:
             name: aethericforge-web-config
-        image: ghcr.io/aetheric-forge/aethericforge-web:v1.1.0
+        image: ghcr.io/aetheric-forge/aethericforge-web:v2.0.0@sha256:2dd5853251e9d90da4c3f70467e79d149ff77a0d8445213be8e9c2b1c8ae8ae7
         imagePullPolicy: Always
         name: aethericforge-web
         ports:
@@ -47,3 +47,4 @@ spec:
             path: ca.crt
           name: step-ca-root-ca
         name: step-ca-root-ca
+

@@ -1,0 +1,66 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aethericforge-web
+  namespace: aetheric-forge
+  annotations:
+    cert-manager.io/cluster-issuer: le-prod
+    external-dns.alpha.kubernetes.io/hostname: "www.aethericforge.ca,aethericforge.ca"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: www.aethericforge.ca
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aethericforge-web
+                port:
+                  number: 80
+    - host: aethericforge.ca
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aethericforge-web
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - www.aethericforge.ca
+        - aethericforge.ca
+      secretName: aethericforge-web-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aethericforge-admin
+  namespace: aetheric-forge
+  annotations:
+    cert-manager.io/cluster-issuer: step-ca-int-ca
+    external-dns.alpha.kubernetes.io/hostname: "admin.int.aethericforge.ca"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+spec:
+  ingressClassName: nginx-private
+  rules:
+    - host: admin.int.aethericforge.ca
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aethericforge-admin
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - admin.int.aethericforge.ca
+      secretName: aethericforge-admin-tls

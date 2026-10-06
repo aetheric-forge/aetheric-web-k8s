@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aethericforge-admin
+  namespace: aetheric-forge
+spec:
+  replicas: 1
+  # The admin host supports only one active instance and writes its root key to disk.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: aethericforge-admin
+  template:
+    metadata:
+      labels:
+        app: aethericforge-admin
+    spec:
+      imagePullSecrets:
+        - name: aetheric-ghcr-secret
+      containers:
+        - name: aethericforge-admin
+          image: ghcr.io/aetheric-forge/aetheric-admin:v2.0.0@sha256:70612a23ce897003076bd87fe39be0ed311cac777217056d0966da6bf11de6cf
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+              value: "true"
+            - name: SSL_CERT_FILE
+              value: /var/run/aetheric-forge/trust/ca.crt
+            - name: BootstrapConnection__StateDirectory
+              value: /data/bootstrap
+            - name: RootCredentials__Directory
+              value: /data/root-credentials
+            - name: RootCredentials__KeyDirectory
+              value: /data/root-key
+          envFrom:
+            - secretRef:
+                name: aethericforge-admin-config
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: admin-data
+              mountPath: /data
+            - name: step-ca-root-ca
+              mountPath: /var/run/aetheric-forge/trust
+              readOnly: true
+      volumes:
+        - name: admin-data
+          persistentVolumeClaim:
+            claimName: aethericforge-admin-data
+        - name: step-ca-root-ca
+          configMap:
+            name: step-ca-root-ca
+            items:
+              - key: ca.crt
+                path: ca.crt
