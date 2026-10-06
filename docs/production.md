@@ -1,6 +1,6 @@
 # Production deployment
 
-ArgoCD Application aetheric-web deploys overlays/prod from main into aetheric-forge. Both v2.0.0 images are pinned by digest.
+ArgoCD Application aetheric-web deploys overlays/prod from main into aetheric-forge. The website v2.0.0 and admin v2.0.1 images are pinned by digest.
 
 - Public website: https://aethericforge.ca and https://www.aethericforge.ca (le-prod).
 - Internal admin: https://admin.int.aethericforge.ca (step-ca-int-ca).
