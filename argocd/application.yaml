@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:aetheric-forge/aetheric-web-k8s.git
+    repoURL: https://github.com/aetheric-forge/aetheric-web-k8s.git
     targetRevision: main
     path: overlays/prod
   destination:
