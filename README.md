@@ -33,7 +33,8 @@ Both Linux amd64 images are pinned by version and immutable digest:
   Immutable digest: `sha256:328cd183b7a84bc39de3feb004e4fe3146ac3b75d799aeecb7f6a6bce0d20bb3`.
 
 The production Operations worker starts when the required RabbitMQ keys are present
-in `aethericforge-admin-config`. It uses the same broker user and virtual host as
+in `aetheric-provisioning-worker-broker`, copied securely from the admin encrypted
+AMQP credential store. It uses the same broker user and virtual host as
 admin, subscribes to institution bootstrap and deployment requests, and publishes
 results back to admin. It receives provisioning root credentials in each request.
 Its separate PVC preserves checkpoints, generated secrets, and their encryption

@@ -33,32 +33,32 @@ spec:
             - name: RabbitMq__Host
               valueFrom:
                 secretKeyRef:
-                  name: aethericforge-admin-config
+                  name: aetheric-provisioning-worker-broker
                   key: RabbitMq__Host
             - name: RabbitMq__Port
               valueFrom:
                 secretKeyRef:
-                  name: aethericforge-admin-config
+                  name: aetheric-provisioning-worker-broker
                   key: RabbitMq__Port
             - name: RabbitMq__Username
               valueFrom:
                 secretKeyRef:
-                  name: aethericforge-admin-config
+                  name: aetheric-provisioning-worker-broker
                   key: RabbitMq__Username
             - name: RabbitMq__Password
               valueFrom:
                 secretKeyRef:
-                  name: aethericforge-admin-config
+                  name: aetheric-provisioning-worker-broker
                   key: RabbitMq__Password
             - name: RabbitMq__VirtualHost
               valueFrom:
                 secretKeyRef:
-                  name: aethericforge-admin-config
+                  name: aetheric-provisioning-worker-broker
                   key: RabbitMq__VirtualHost
             - name: RabbitMq__Ssl
               valueFrom:
                 secretKeyRef:
-                  name: aethericforge-admin-config
+                  name: aetheric-provisioning-worker-broker
                   key: RabbitMq__Ssl
           resources:
             requests:
