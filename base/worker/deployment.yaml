@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aetheric-provisioning-worker
+  namespace: aetheric-forge
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: aetheric-provisioning-worker
+  template:
+    metadata:
+      labels:
+        app: aetheric-provisioning-worker
+    spec:
+      imagePullSecrets:
+        - name: aetheric-ghcr-secret
+      containers:
+        - name: worker
+          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:v2.0.4@sha256:328cd183b7a84bc39de3feb004e4fe3146ac3b75d799aeecb7f6a6bce0d20bb3
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DOTNET_ENVIRONMENT
+              value: Production
+            - name: Provisioning__DataDirectory
+              value: /data
+            - name: Provisioning__SecretsKeyDirectory
+              value: /data/secrets-key
+            - name: Provisioning__WorkbenchTarget
+              value: aetheric-provisioning-worker
+            - name: RabbitMq__Host
+              valueFrom:
+                secretKeyRef:
+                  name: aethericforge-admin-config
+                  key: RabbitMq__Host
+            - name: RabbitMq__Port
+              valueFrom:
+                secretKeyRef:
+                  name: aethericforge-admin-config
+                  key: RabbitMq__Port
+            - name: RabbitMq__Username
+              valueFrom:
+                secretKeyRef:
+                  name: aethericforge-admin-config
+                  key: RabbitMq__Username
+            - name: RabbitMq__Password
+              valueFrom:
+                secretKeyRef:
+                  name: aethericforge-admin-config
+                  key: RabbitMq__Password
+            - name: RabbitMq__VirtualHost
+              valueFrom:
+                secretKeyRef:
+                  name: aethericforge-admin-config
+                  key: RabbitMq__VirtualHost
+            - name: RabbitMq__Ssl
+              valueFrom:
+                secretKeyRef:
+                  name: aethericforge-admin-config
+                  key: RabbitMq__Ssl
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: worker-data
+              mountPath: /data
+      volumes:
+        - name: worker-data
+          persistentVolumeClaim:
+            claimName: aetheric-provisioning-worker-data

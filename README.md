@@ -7,6 +7,7 @@ Kustomize manifests for `www.aethericforge.ca`, `aethericforge.ca`, and
 
 - `base/`: website Deployment, Service, CA ConfigMap, and Velero backup schedule.
 - `base/admin/`: admin Deployment, internal Service, and 1Gi persistent volume.
+- `base/worker/`: Operations provisioning worker and separate 1Gi persistent volume.
 - `overlays/dev/`: existing development website ingress.
 - `overlays/prod/`: production website and private admin ingress.
 - `argocd/application.yaml`: Application targeting `overlays/prod`.
@@ -27,6 +28,17 @@ Both Linux amd64 images are pinned by version and immutable digest:
 - `ghcr.io/aetheric-forge/aetheric-admin:v2.0.4`, source commit
   `6b2fdf823e8ee3a320445efc25872cbefd1a48c9`. Immutable digest:
   `sha256:c0d7ca69122b426ab9ee6741f369b262816bdb7e2793654c2110fadf3ade3f97`.
+- `ghcr.io/aetheric-forge/aetheric-provisioning-worker:v2.0.4`, built with
+  `Dockerfile.worker` from aetheric-admin commit `d163e5b` (runtime `d70a8bd`).
+  Immutable digest: `sha256:328cd183b7a84bc39de3feb004e4fe3146ac3b75d799aeecb7f6a6bce0d20bb3`.
+
+The production Operations worker starts when the required RabbitMQ keys are present
+in `aethericforge-admin-config`. It uses the same broker user and virtual host as
+admin, subscribes to institution bootstrap and deployment requests, and publishes
+results back to admin. It receives provisioning root credentials in each request.
+Its separate PVC preserves checkpoints, generated secrets, and their encryption
+key under `/data`. Keep a single worker replica with Recreate updates. Back up
+this PVC with the other resources in the `aetheric-forge` namespace.
 
 The website defaults to public-site mode. Full campus mode requires
 `PublicSite__Enabled=false` and the institution-specific credentials described
