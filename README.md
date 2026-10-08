@@ -28,9 +28,10 @@ Both Linux amd64 images are pinned by version and immutable digest:
 - `ghcr.io/aetheric-forge/aetheric-admin:v2.0.4`, source commit
   `6b2fdf823e8ee3a320445efc25872cbefd1a48c9`. Immutable digest:
   `sha256:c0d7ca69122b426ab9ee6741f369b262816bdb7e2793654c2110fadf3ade3f97`.
-- `ghcr.io/aetheric-forge/aetheric-provisioning-worker:v2.0.4`, built with
-  `Dockerfile.worker` from aetheric-admin commit `d163e5b` (runtime `d70a8bd`).
-  Immutable digest: `sha256:328cd183b7a84bc39de3feb004e4fe3146ac3b75d799aeecb7f6a6bce0d20bb3`.
+- `ghcr.io/aetheric-forge/aetheric-provisioning-worker:v2.0.5`, built with
+  `Dockerfile.worker` from aetheric-admin commit `c33ace6` (runtime `824537d`).
+  Includes validation support for dotted Keycloak realm names.
+  Immutable digest: `sha256:75d064467a3b37659eeb98cc9fa10f9e6894548f11a01808362b2be41dabfa24`.
 
 The production Operations worker starts when the required RabbitMQ keys are present
 in `aetheric-provisioning-worker-broker`, copied securely from the admin encrypted
