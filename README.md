@@ -24,9 +24,9 @@ Both Linux amd64 images are pinned by version and immutable digest:
 
 - `ghcr.io/aetheric-forge/aethericforge-web:v2.0.0`, source commit
   `48a8e3eaf7d0118fb20758b7552727cd8f6e2921`.
-- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.3`, source commit
-  `88d00259bc2037b4fa6a7d908b840145ffe0fd05`. Immutable digest:
-  `sha256:f9319119be5d09aa7cbff114271e054850ee02536cb576405e9091403a7b8d43`.
+- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.4`, source commit
+  `6b2fdf823e8ee3a320445efc25872cbefd1a48c9`. Immutable digest:
+  `sha256:c0d7ca69122b426ab9ee6741f369b262816bdb7e2793654c2110fadf3ade3f97`.
 
 The website defaults to public-site mode. Full campus mode requires
 `PublicSite__Enabled=false` and the institution-specific credentials described

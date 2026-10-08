@@ -20,7 +20,7 @@ spec:
         - name: aetheric-ghcr-secret
       containers:
         - name: aethericforge-admin
-          image: ghcr.io/aetheric-forge/aetheric-admin:v2.0.3@sha256:f9319119be5d09aa7cbff114271e054850ee02536cb576405e9091403a7b8d43
+          image: ghcr.io/aetheric-forge/aetheric-admin:v2.0.4@sha256:c0d7ca69122b426ab9ee6741f369b262816bdb7e2793654c2110fadf3ade3f97
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
