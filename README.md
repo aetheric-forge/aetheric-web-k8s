@@ -39,7 +39,9 @@ AMQP credential store. It uses the same broker user and virtual host as
 admin, subscribes to institution bootstrap and deployment requests, and publishes
 results back to admin. It receives provisioning root credentials in each request.
 Its separate PVC preserves checkpoints, generated secrets, and their encryption
-key under `/data`. Keep a single worker replica with Recreate updates. Back up
+key under `/data`. Like admin, the worker mounts `step-ca-root-ca` and sets
+`SSL_CERT_FILE` so calls to private Keycloak trust the current platform CA.
+Keep a single worker replica with Recreate updates. Back up
 this PVC with the other resources in the `aetheric-forge` namespace.
 
 The website defaults to public-site mode. Full campus mode requires
