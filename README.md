@@ -23,9 +23,9 @@ is pinned. The existing Cloudflare external-dns instance must include
 
 Linux amd64 images are pinned by version and immutable digest:
 
-- `ghcr.io/aetheric-forge/aethericforge-web:v2.0.6`, source commit
-  `48a8e3eaf7d0118fb20758b7552727cd8f6e2921`. Immutable digest:
-  `sha256:5b1d60bfa837f31fbaeab1f748e6369e5ed34f7a9426cb4babfee8c403b206de`.
+- `ghcr.io/aetheric-forge/aethericforge-web:sha-cd7b59a`, source commit
+  `cd7b59a5282df0f92aea106dc6ba3397b1fdb856`. Immutable digest:
+  `sha256:dfc0fc5a8041aba5e45c6d0c2130ffc1712d2476fb734b44c16c20d072c45aaf`.
 - `ghcr.io/aetheric-forge/aetheric-admin:v2.0.6`, source commit
   `04fd8bb` from `claude/terminology-labels`, with the shared terminology
   service and admin UI labels. Immutable digest:
