@@ -110,3 +110,20 @@ Admin v2.0.2 automatically opens `/setup` when required provisioning root creden
 The manifest configures the deployment-owned setup origin as `https://admin.int.aethericforge.ca` and uses the initial `provisioner` client in the configured Keycloak realm. That client needs realm administration permissions and the callback `https://admin.int.aethericforge.ca/setup/signin-oidc`; its secret is supplied through the wizard. The normal admin client remains configured by the existing secret. Keep the admin PVC and root encryption key across updates.
 
 During initial setup, the suggested provisioner client ID can be changed. A changed ID is saved only after its existing Keycloak client verifies successfully. The saved ID survives restart and takes precedence over the manifest suggestion; choosing an administrator locks it. This step does not create the initial Keycloak client.
+
+## Public sign-in
+
+The website deploys the public sign-in fix from source commit
+`cd7b59a5282df0f92aea106dc6ba3397b1fdb856` (`sha-cd7b59a`, source PR #45).
+Public content remains in `PublicSite__Enabled=true` mode.
+`PublicSite__SignInEnabled=true` enables OIDC with the dedicated
+`aetheric-web-public-signin` client in the saved bootstrap realm. The scoped
+client secret is included in the encrypted web configuration backup. The admin
+bootstrap root store and encryption key remain on the admin PVC.
+
+The single-replica web Deployment uses Recreate updates and its own 1Gi PVC at
+`/data` for Data Protection keys (`PublicSite__ProtectionKeyDirectory`). Preserve
+this PVC so sign-in cookies and in-flight callbacks survive pod replacement.
+Apply the encrypted web Secret with `scripts/apply-secrets.sh` before syncing.
+The exact callbacks are `https://aethericforge.ca/signin-oidc` and
+`https://www.aethericforge.ca/signin-oidc`; both logout callbacks are registered.

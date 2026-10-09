@@ -5,6 +5,8 @@ metadata:
   namespace: aetheric-forge
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: aethericforge-web
@@ -24,7 +26,7 @@ spec:
         envFrom:
         - secretRef:
             name: aethericforge-web-config
-        image: ghcr.io/aetheric-forge/aethericforge-web:v2.0.6@sha256:5b1d60bfa837f31fbaeab1f748e6369e5ed34f7a9426cb4babfee8c403b206de
+        image: ghcr.io/aetheric-forge/aethericforge-web:sha-cd7b59a@sha256:dfc0fc5a8041aba5e45c6d0c2130ffc1712d2476fb734b44c16c20d072c45aaf
         imagePullPolicy: Always
         name: aethericforge-web
         ports:
@@ -37,10 +39,15 @@ spec:
             cpu: 50m
             memory: 128Mi
         volumeMounts:
+        - mountPath: /data
+          name: web-signin-data
         - mountPath: /var/run/aetheric-forge/trust
           name: step-ca-root-ca
           readOnly: true
       volumes:
+      - name: web-signin-data
+        persistentVolumeClaim:
+          claimName: aethericforge-web-signin-data
       - configMap:
           items:
           - key: ca.crt

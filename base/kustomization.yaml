@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - deployment.yaml
+  - web-signin-pvc.yaml
   - service.yaml
   - aetheric-forge-backup.yaml
   - step-ca-root-ca.yaml
