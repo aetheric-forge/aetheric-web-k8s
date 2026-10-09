@@ -21,13 +21,15 @@ is pinned. The existing Cloudflare external-dns instance must include
 
 ## Published images
 
-Both Linux amd64 images are pinned by version and immutable digest:
+Linux amd64 images are pinned by version and immutable digest:
 
-- `ghcr.io/aetheric-forge/aethericforge-web:v2.0.0`, source commit
-  `48a8e3eaf7d0118fb20758b7552727cd8f6e2921`.
-- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.4`, source commit
-  `6b2fdf823e8ee3a320445efc25872cbefd1a48c9`. Immutable digest:
-  `sha256:c0d7ca69122b426ab9ee6741f369b262816bdb7e2793654c2110fadf3ade3f97`.
+- `ghcr.io/aetheric-forge/aethericforge-web:v2.0.6`, source commit
+  `48a8e3eaf7d0118fb20758b7552727cd8f6e2921`. Immutable digest:
+  `sha256:5b1d60bfa837f31fbaeab1f748e6369e5ed34f7a9426cb4babfee8c403b206de`.
+- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.6`, source commit
+  `04fd8bb` from `claude/terminology-labels`, with the shared terminology
+  service and admin UI labels. Immutable digest:
+  `sha256:6197bdd8f32812d29892914d65be4eb82727da78704da848431248cd920fbc47`.
 - `ghcr.io/aetheric-forge/aetheric-provisioning-worker:v2.0.5`, built with
   `Dockerfile.worker` from aetheric-admin commit `c33ace6` (runtime `824537d`).
   Includes validation support for dotted Keycloak realm names.
