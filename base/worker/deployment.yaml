@@ -15,13 +15,20 @@ spec:
       labels:
         app: aetheric-provisioning-worker
     spec:
+      serviceAccountName: aetheric-provisioning-worker
       imagePullSecrets:
         - name: aetheric-ghcr-secret
       containers:
         - name: worker
-          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:v2.0.5@sha256:75d064467a3b37659eeb98cc9fa10f9e6894548f11a01808362b2be41dabfa24
+          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-b7fcbc9@sha256:f0f5c17447ee4de8ad11ee5c921c973496ab45b000b96600461f4f4cfa459056
           imagePullPolicy: IfNotPresent
           env:
+            - name: Provisioning__ParallelYou__PublicOrigin
+              value: https://www.aethericforge.ca
+            - name: Provisioning__ConsumerSecret__Namespace
+              value: aetheric-forge
+            - name: Provisioning__ConsumerSecret__Name
+              value: aethericforge-parallel-you-consumer
             - name: DOTNET_ENVIRONMENT
               value: Production
             - name: SSL_CERT_FILE

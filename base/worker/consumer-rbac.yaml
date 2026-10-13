@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aethericforge-parallel-you-consumer
+  namespace: aetheric-forge
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+type: Opaque
+data: {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: aetheric-provisioning-worker
+  namespace: aetheric-forge
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: parallel-you-consumer-writer
+  namespace: aetheric-forge
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: ["aethericforge-parallel-you-consumer"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: parallel-you-consumer-writer
+  namespace: aetheric-forge
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+subjects:
+  - kind: ServiceAccount
+    name: aetheric-provisioning-worker
+    namespace: aetheric-forge
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: parallel-you-consumer-writer
