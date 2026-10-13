@@ -12,6 +12,8 @@ spec:
       app: aethericforge-web
   template:
     metadata:
+      annotations:
+        aetheric-forge/consumer-revision: "public-sso-v1"
       labels:
         app: aethericforge-web
     spec:
