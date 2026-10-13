@@ -20,7 +20,7 @@ spec:
         - name: aetheric-ghcr-secret
       containers:
         - name: worker
-          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-b7fcbc9@sha256:f0f5c17447ee4de8ad11ee5c921c973496ab45b000b96600461f4f4cfa459056
+          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-cd65505@sha256:6a734fc6fee2f9090d14718b5b0bdf16026e26b9b8ee3a7428a57c0e7c1e7d97
           imagePullPolicy: IfNotPresent
           env:
             - name: Provisioning__ParallelYou__PublicOrigin
