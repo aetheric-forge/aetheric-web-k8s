@@ -20,9 +20,11 @@ spec:
         - name: aetheric-ghcr-secret
       containers:
         - name: worker
-          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-cd65505@sha256:6a734fc6fee2f9090d14718b5b0bdf16026e26b9b8ee3a7428a57c0e7c1e7d97
+          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-fdd63d5@sha256:9c36e2d6b9e37c9e73f999a3b236dc45570e07ea0a8ddd99f4e81f3c9c4b4260
           imagePullPolicy: IfNotPresent
           env:
+            - name: Provisioning__ParallelYou__RegistryAuthority
+              value: https://sso.aethericforge.ca
             - name: Provisioning__ParallelYou__PublicOrigin
               value: https://www.aethericforge.ca
             - name: Provisioning__ConsumerSecret__Namespace
