@@ -21,16 +21,6 @@ spec:
                 name: aethericforge-web
                 port:
                   number: 80
-    - host: aethericforge.ca
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: aethericforge-web
-                port:
-                  number: 80
   tls:
     - hosts:
         - www.aethericforge.ca
@@ -64,3 +54,30 @@ spec:
     - hosts:
         - admin.int.aethericforge.ca
       secretName: aethericforge-admin-tls
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aethericforge-web-canonical
+  namespace: aetheric-forge
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: https://www.aethericforge.ca$request_uri
+    nginx.ingress.kubernetes.io/permanent-redirect-code: "308"
+spec:
+  ingressClassName: nginx-public
+  rules:
+    - host: aethericforge.ca
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aethericforge-web
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - aethericforge.ca
+      secretName: aethericforge-web-tls

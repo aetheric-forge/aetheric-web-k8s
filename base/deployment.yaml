@@ -23,10 +23,22 @@ spec:
           value: "true"
         - name: SSL_CERT_FILE
           value: /var/run/aetheric-forge/trust/ca.crt
+        - name: PublicSite__Enabled
+          value: "true"
+        - name: PublicSite__SignInEnabled
+          value: "true"
+        - name: PublicSite__ProtectionKeyDirectory
+          value: /data/parallel-you-signin-keys
+        - name: ParallelYou__ProvisionedConfigurationPath
+          value: /var/run/aetheric-forge/parallel-you/configuration.json
+        - name: ParallelYou__DeploymentId
+          value: f7448b244efacc5bf6b2decc4a7b0879eeb971dbf87e79657eb6735e9445318e
+        - name: ParallelYou__Environment
+          value: production
         envFrom:
         - secretRef:
             name: aethericforge-web-config
-        image: ghcr.io/aetheric-forge/aethericforge-web:sha-cd7b59a@sha256:dfc0fc5a8041aba5e45c6d0c2130ffc1712d2476fb734b44c16c20d072c45aaf
+        image: ghcr.io/aetheric-forge/aethericforge-web:sha-e2da89f@sha256:da4b07fd68c96d1f74f86ab4fe9775baf454d658dc701d708fbaace0f40495b5
         imagePullPolicy: Always
         name: aethericforge-web
         ports:
@@ -44,7 +56,16 @@ spec:
         - mountPath: /var/run/aetheric-forge/trust
           name: step-ca-root-ca
           readOnly: true
+        - mountPath: /var/run/aetheric-forge/parallel-you
+          name: parallel-you-consumer
+          readOnly: true
       volumes:
+      - name: parallel-you-consumer
+        secret:
+          secretName: aethericforge-parallel-you-consumer
+          items:
+          - key: configuration.json
+            path: configuration.json
       - name: web-signin-data
         persistentVolumeClaim:
           claimName: aethericforge-web-signin-data
