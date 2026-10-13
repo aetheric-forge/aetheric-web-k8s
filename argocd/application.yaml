@@ -12,9 +12,19 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: aetheric-forge
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: aethericforge-parallel-you-consumer
+      namespace: aetheric-forge
+      jsonPointers:
+        - /data
+        - /metadata/annotations/aetheric-forge~1deployment-id
+        - /metadata/annotations/aetheric-forge~1plan-id
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
