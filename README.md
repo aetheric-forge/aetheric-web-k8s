@@ -23,19 +23,20 @@ is pinned. The existing Cloudflare external-dns instance must include
 
 Linux amd64 images are pinned by version and immutable digest:
 
-- `ghcr.io/aetheric-forge/aethericforge-web:sha-9f020ac`, source commit
-  `9f020acf371abbaf7a2defde91416ab19d011937` (aetheric-web PR #48).
-  Loads Parallel You into the web shell through the pinned Git definition and
-  institution plugin. Immutable digest:
-  `sha256:822342a54cf4e9391182d79cd893c08bdfcd868faf24029b2c1236fec0edcc51`.
-- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.6`, source commit
-  `04fd8bb` from `claude/terminology-labels`, with the shared terminology
-  service and admin UI labels. Immutable digest:
-  `sha256:6197bdd8f32812d29892914d65be4eb82727da78704da848431248cd920fbc47`.
-- `ghcr.io/aetheric-forge/aetheric-provisioning-worker:v2.0.5`, built with
-  `Dockerfile.worker` from aetheric-admin commit `c33ace6` (runtime `824537d`).
-  Includes validation support for dotted Keycloak realm names.
-  Immutable digest: `sha256:75d064467a3b37659eeb98cc9fa10f9e6894548f11a01808362b2be41dabfa24`.
+- `ghcr.io/aetheric-forge/aethericforge-web:sha-c0a1653`, source commit
+  `c0a1653f3dc26f42fc61aa1c6226689e70cc3378` (aetheric-web PR #51).
+  Pinned Git modules for Parallel You, Library, Archive and Decisions; the
+  sidebar links only to modules that are loaded. Immutable digest:
+  `sha256:e144fb539af3e8faa040b6125547c9f06652d4dd1738b5df204789311e25bab4`.
+- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.7`, source commit
+  `506d598a14109db8b65632db004cd0672081b982` (aetheric-admin PR #21), adding
+  `/provisioning/institutions` to deploy pinned institutions (Library) through
+  `institution/deploy` 2.0. Immutable digest:
+  `sha256:443c05d5909cb8d0e139924e2a58a6e0178f054e6c3e83e63d9612c3e3c44a3e`.
+- `ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-4c46cce`, built from
+  aetheric-runtime commit `4c46cce` (PR #43), which delivers Library, Archive and
+  Decisions consumer configurations to their web Secrets. Immutable digest:
+  `sha256:b1c4163e649d8a15f7c48d8c2226193210676ff45e9de00c21a3fc8e94fe3572`.
 
 The production Operations worker starts when the required RabbitMQ keys are present
 in `aetheric-provisioning-worker-broker`, copied securely from the admin encrypted
