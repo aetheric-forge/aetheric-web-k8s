@@ -44,7 +44,7 @@ spec:
         envFrom:
         - secretRef:
             name: aethericforge-web-config
-        image: ghcr.io/aetheric-forge/aethericforge-web:sha-07bc71b@sha256:d338954bfad78c74d8d7218389875a883ea67c863cc9ec525d11340681fe1989
+        image: ghcr.io/aetheric-forge/aethericforge-web:sha-c0a1653@sha256:e144fb539af3e8faa040b6125547c9f06652d4dd1738b5df204789311e25bab4
         imagePullPolicy: Always
         name: aethericforge-web
         ports:
