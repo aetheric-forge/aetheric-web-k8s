@@ -23,9 +23,11 @@ is pinned. The existing Cloudflare external-dns instance must include
 
 Linux amd64 images are pinned by version and immutable digest:
 
-- `ghcr.io/aetheric-forge/aethericforge-web:sha-cd7b59a`, source commit
-  `cd7b59a5282df0f92aea106dc6ba3397b1fdb856`. Immutable digest:
-  `sha256:dfc0fc5a8041aba5e45c6d0c2130ffc1712d2476fb734b44c16c20d072c45aaf`.
+- `ghcr.io/aetheric-forge/aethericforge-web:sha-9f020ac`, source commit
+  `9f020acf371abbaf7a2defde91416ab19d011937` (aetheric-web PR #48).
+  Loads Parallel You into the web shell through the pinned Git definition and
+  institution plugin. Immutable digest:
+  `sha256:822342a54cf4e9391182d79cd893c08bdfcd868faf24029b2c1236fec0edcc51`.
 - `ghcr.io/aetheric-forge/aetheric-admin:v2.0.6`, source commit
   `04fd8bb` from `claude/terminology-labels`, with the shared terminology
   service and admin UI labels. Immutable digest:
@@ -113,8 +115,13 @@ During initial setup, the suggested provisioner client ID can be changed. A chan
 
 ## Public sign-in
 
-The website deploys the public sign-in fix from source commit
-`cd7b59a5282df0f92aea106dc6ba3397b1fdb856` (`sha-cd7b59a`, source PR #45).
+The website deploys the Git institution loader integration from source commit
+`9f020acf371abbaf7a2defde91416ab19d011937` (`sha-9f020ac`, source PR #48),
+including the existing public sign-in fix. Parallel You uses its external plugin
+at commit `055551d6eba7e525665b89186ac914e46c8d3293` (Parallel You PR #17).
+Startup loads the matching definition and bindings from public GitHub, so the
+web pod needs outbound HTTPS access to GitHub. The existing provisioned consumer
+Secret supplies the Library, Workbench, and OIDC settings.
 Public content remains in `PublicSite__Enabled=true` mode.
 `PublicSite__SignInEnabled=true` enables OIDC with the dedicated
 `aetheric-web-public-signin` client in the saved bootstrap realm. The scoped
