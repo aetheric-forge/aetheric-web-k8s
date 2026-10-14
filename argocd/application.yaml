@@ -21,6 +21,30 @@ spec:
         - /data
         - /metadata/annotations/aetheric-forge~1deployment-id
         - /metadata/annotations/aetheric-forge~1plan-id
+    - group: ""
+      kind: Secret
+      name: aethericforge-library-consumer
+      namespace: aetheric-forge
+      jsonPointers:
+        - /data
+        - /metadata/annotations/aetheric-forge~1deployment-id
+        - /metadata/annotations/aetheric-forge~1plan-id
+    - group: ""
+      kind: Secret
+      name: aethericforge-archive-consumer
+      namespace: aetheric-forge
+      jsonPointers:
+        - /data
+        - /metadata/annotations/aetheric-forge~1deployment-id
+        - /metadata/annotations/aetheric-forge~1plan-id
+    - group: ""
+      kind: Secret
+      name: aethericforge-decisions-consumer
+      namespace: aetheric-forge
+      jsonPointers:
+        - /data
+        - /metadata/annotations/aetheric-forge~1deployment-id
+        - /metadata/annotations/aetheric-forge~1plan-id
   syncPolicy:
     automated:
       prune: true

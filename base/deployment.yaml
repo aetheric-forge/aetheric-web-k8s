@@ -25,6 +25,10 @@ spec:
           value: "true"
         - name: SSL_CERT_FILE
           value: /var/run/aetheric-forge/trust/ca.crt
+        - name: Provisioning__Consumers__Directory
+          value: /var/run/aetheric-forge/consumers
+        - name: Provisioning__Consumers__Environment
+          value: production
         - name: PublicSite__Enabled
           value: "true"
         - name: PublicSite__SignInEnabled
@@ -40,7 +44,7 @@ spec:
         envFrom:
         - secretRef:
             name: aethericforge-web-config
-        image: ghcr.io/aetheric-forge/aethericforge-web:sha-557b514@sha256:3dfbe758a38c7af3bc57d181cd5fa50fc22407c6867c444b1abc193b4a248a65
+        image: ghcr.io/aetheric-forge/aethericforge-web:sha-07bc71b@sha256:d338954bfad78c74d8d7218389875a883ea67c863cc9ec525d11340681fe1989
         imagePullPolicy: Always
         name: aethericforge-web
         ports:
@@ -53,6 +57,9 @@ spec:
             cpu: 50m
             memory: 128Mi
         volumeMounts:
+        - mountPath: /var/run/aetheric-forge/consumers
+          name: institution-consumers
+          readOnly: true
         - mountPath: /data
           name: web-signin-data
         - mountPath: /var/run/aetheric-forge/trust
@@ -62,6 +69,27 @@ spec:
           name: parallel-you-consumer
           readOnly: true
       volumes:
+      - name: institution-consumers
+        projected:
+          sources:
+            - secret:
+                name: aethericforge-library-consumer
+                optional: true
+                items:
+                  - key: configuration.json
+                    path: library/configuration.json
+            - secret:
+                name: aethericforge-archive-consumer
+                optional: true
+                items:
+                  - key: configuration.json
+                    path: archive/configuration.json
+            - secret:
+                name: aethericforge-decisions-consumer
+                optional: true
+                items:
+                  - key: configuration.json
+                    path: decisions/configuration.json
       - name: parallel-you-consumer
         secret:
           secretName: aethericforge-parallel-you-consumer

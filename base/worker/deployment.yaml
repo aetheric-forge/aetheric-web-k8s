@@ -20,9 +20,17 @@ spec:
         - name: aetheric-ghcr-secret
       containers:
         - name: worker
-          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-fdd63d5@sha256:9c36e2d6b9e37c9e73f999a3b236dc45570e07ea0a8ddd99f4e81f3c9c4b4260
+          image: ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-4c46cce@sha256:b1c4163e649d8a15f7c48d8c2226193210676ff45e9de00c21a3fc8e94fe3572
           imagePullPolicy: IfNotPresent
           env:
+            - name: Provisioning__Consumers__Environment
+              value: production
+            - name: Provisioning__Consumers__Library__SecretName
+              value: aethericforge-library-consumer
+            - name: Provisioning__Consumers__Archive__SecretName
+              value: aethericforge-archive-consumer
+            - name: Provisioning__Consumers__Decisions__SecretName
+              value: aethericforge-decisions-consumer
             - name: Provisioning__ParallelYou__RegistryAuthority
               value: https://sso.aethericforge.ca
             - name: Provisioning__ParallelYou__PublicOrigin
