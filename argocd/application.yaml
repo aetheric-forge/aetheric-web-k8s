@@ -45,6 +45,14 @@ spec:
         - /data
         - /metadata/annotations/aetheric-forge~1deployment-id
         - /metadata/annotations/aetheric-forge~1plan-id
+    - group: ""
+      kind: Secret
+      name: aethericforge-decisions-consumer-v1
+      namespace: aetheric-forge
+      jsonPointers:
+        - /data
+        - /metadata/annotations/aetheric-forge~1deployment-id
+        - /metadata/annotations/aetheric-forge~1plan-id
   syncPolicy:
     automated:
       prune: true

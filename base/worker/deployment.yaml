@@ -30,7 +30,7 @@ spec:
             - name: Provisioning__Consumers__Archive__SecretName
               value: aethericforge-archive-consumer
             - name: Provisioning__Consumers__Decisions__SecretName
-              value: aethericforge-decisions-consumer
+              value: aethericforge-decisions-consumer-v1
             - name: Provisioning__ParallelYou__RegistryAuthority
               value: https://sso.aethericforge.ca
             - name: Provisioning__ParallelYou__PublicOrigin
