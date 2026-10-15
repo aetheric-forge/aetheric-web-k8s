@@ -23,11 +23,11 @@ is pinned. The existing Cloudflare external-dns instance must include
 
 Linux amd64 images are pinned by version and immutable digest:
 
-- `ghcr.io/aetheric-forge/aethericforge-web:sha-c0a1653`, source commit
-  `c0a1653f3dc26f42fc61aa1c6226689e70cc3378` (aetheric-web PR #51).
-  Pinned Git modules for Parallel You, Library, Archive and Decisions; the
-  sidebar links only to modules that are loaded. Immutable digest:
-  `sha256:e144fb539af3e8faa040b6125547c9f06652d4dd1738b5df204789311e25bab4`.
+- `ghcr.io/aetheric-forge/aethericforge-web:sha-2ca4ac7`, tested source commit
+  `2ca4ac74bcef1392cfbffa3fab31178f16631fc9` (web PR #54, merged as `3ee03c7`).
+  Full campus hosting mounts the new Decisions office under Administration,
+  using its parent Workbench stage and scoped provisioned consumer. Immutable digest:
+  `sha256:651056106c746b69e763061365170aff3f1e94ac2613b48cc0b91b5a73e24931`.
 - `ghcr.io/aetheric-forge/aetheric-admin:v2.0.7`, source commit
   `506d598a14109db8b65632db004cd0672081b982` (aetheric-admin PR #21), adding
   `/provisioning/institutions` to deploy pinned institutions (Library) through
@@ -49,10 +49,12 @@ key under `/data`. Like admin, the worker mounts `step-ca-root-ca` and sets
 Keep a single worker replica with Recreate updates. Back up
 this PVC with the other resources in the `aetheric-forge` namespace.
 
-The website defaults to public-site mode. Full campus mode requires
-`PublicSite__Enabled=false` and the institution-specific credentials described
-in aetheric-web's `docs/architecture/service-configuration.md`; the legacy flat
-credential example is insufficient for campus mode.
+Production now runs full-campus mode (`PublicSite__Enabled=false`). The separate
+`aethericforge-web-campus-v1` Secret supplies scoped campus credentials and the
+validated Parallel You settings retained from its existing consumer artifact.
+The original sign-in PVC and consumer Secrets are retained. Decisions delivery uses
+`aethericforge-decisions-consumer-v1`, leaving the old public-mode slot untouched.
+See [Decisions deployment](docs/decisions-deployment.md) for prerequisites and rollback.
 
 ## Application configuration
 
