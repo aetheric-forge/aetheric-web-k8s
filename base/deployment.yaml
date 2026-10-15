@@ -48,7 +48,7 @@ spec:
             name: aethericforge-web-config
         - secretRef:
             name: aethericforge-web-campus-v1
-        image: ghcr.io/aetheric-forge/aethericforge-web:sha-2ca4ac7@sha256:651056106c746b69e763061365170aff3f1e94ac2613b48cc0b91b5a73e24931
+        image: ghcr.io/aetheric-forge/aethericforge-web:sha-0d4abdd@sha256:68f6bb80d81a6c665fa7937a4b96ec57ecc620200613e85c5c2f4a1cb121edfe
         imagePullPolicy: Always
         name: aethericforge-web
         ports:
