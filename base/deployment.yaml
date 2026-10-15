@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       annotations:
-        aetheric-forge/consumer-revision: "public-sso-v1"
+        aetheric-forge/consumer-revision: "administration-decisions-v1"
       labels:
         app: aethericforge-web
     spec:
@@ -30,13 +30,15 @@ spec:
         - name: Provisioning__Consumers__Environment
           value: production
         - name: PublicSite__Enabled
-          value: "true"
+          value: "false"
         - name: PublicSite__SignInEnabled
           value: "true"
         - name: PublicSite__ProtectionKeyDirectory
           value: /data/parallel-you-signin-keys
         - name: ParallelYou__ProvisionedConfigurationPath
-          value: /var/run/aetheric-forge/parallel-you/configuration.json
+          value: ""
+        - name: Decisions__Directory__Keycloak__AdminApiBaseAddress
+          value: https://sso-admin.int.blackcircuit.ca/admin/
         - name: ParallelYou__DeploymentId
           value: f7448b244efacc5bf6b2decc4a7b0879eeb971dbf87e79657eb6735e9445318e
         - name: ParallelYou__Environment
@@ -44,11 +46,21 @@ spec:
         envFrom:
         - secretRef:
             name: aethericforge-web-config
-        image: ghcr.io/aetheric-forge/aethericforge-web:sha-c0a1653@sha256:e144fb539af3e8faa040b6125547c9f06652d4dd1738b5df204789311e25bab4
+        - secretRef:
+            name: aethericforge-web-campus-v1
+        image: ghcr.io/aetheric-forge/aethericforge-web:sha-2ca4ac7@sha256:651056106c746b69e763061365170aff3f1e94ac2613b48cc0b91b5a73e24931
         imagePullPolicy: Always
         name: aethericforge-web
         ports:
         - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /projects
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 12
         resources:
           limits:
             cpu: 500m
@@ -85,7 +97,7 @@ spec:
                   - key: configuration.json
                     path: archive/configuration.json
             - secret:
-                name: aethericforge-decisions-consumer
+                name: aethericforge-decisions-consumer-v1
                 optional: true
                 items:
                   - key: configuration.json
