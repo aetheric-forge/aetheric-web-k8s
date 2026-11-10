@@ -77,9 +77,6 @@ spec:
         - mountPath: /var/run/aetheric-forge/trust
           name: step-ca-root-ca
           readOnly: true
-        - mountPath: /var/run/aetheric-forge/parallel-you
-          name: parallel-you-consumer
-          readOnly: true
       volumes:
       - name: institution-consumers
         projected:
@@ -102,12 +99,6 @@ spec:
                 items:
                   - key: configuration.json
                     path: decisions/configuration.json
-      - name: parallel-you-consumer
-        secret:
-          secretName: aethericforge-parallel-you-consumer
-          items:
-          - key: configuration.json
-            path: configuration.json
       - name: web-signin-data
         persistentVolumeClaim:
           claimName: aethericforge-web-signin-data
