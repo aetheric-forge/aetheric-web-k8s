@@ -222,9 +222,10 @@ phase or sync `overlays/prod` concurrently.
    python3 scripts/check-web-prerequisites.py --context blackcircuit-ca-platform-prod
    ```
 
-   It returns nonzero for missing/unbound PVCs, missing campus credentials, empty
+   It returns nonzero for missing PVCs, unbound admin/worker PVCs, missing campus credentials, empty
    consumer slots, or mismatched consumer identity/environment/Decisions owner.
-   It prints only diagnostic names/codes, never Secret values. It is not a service
+   The paused web PVC may remain Pending with WaitForFirstConsumer storage; verify
+   it binds when web is enabled. It prints only diagnostic names/codes, never Secret values. It is not a service
    connectivity test, complete host schema validation, or proof that a previous
    consumer plan satisfies new resource requirements. Review the submitted plan
    and consumer delivery results and test the scoped service access as well.

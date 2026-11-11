@@ -59,8 +59,12 @@ def inspect(items, environment):
     pvcs = {x["metadata"]["name"]: x for x in items if x["kind"] == "PersistentVolumeClaim"}
     issues = []
     for name in PVCS:
-        if pvcs.get(name, {}).get("status", {}).get("phase") != "Bound":
-            issues.append(name + ": PVC missing or not Bound; establish persistent provisioning storage")
+        phase = pvcs.get(name, {}).get("status", {}).get("phase")
+        # WaitForFirstConsumer storage cannot bind the web PVC while web replicas
+        # are zero. Its eventual attachment is verified when enabling the web.
+        acceptable = ("Bound", "Pending") if name == "aethericforge-web-signin-data" else ("Bound",)
+        if phase not in acceptable:
+            issues.append(name + ": PVC missing or not ready; establish persistent provisioning storage")
     config = {}
     for name in ("aethericforge-web-config", "aethericforge-web-campus-v1"):
         if name not in secrets:

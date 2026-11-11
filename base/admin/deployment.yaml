@@ -38,6 +38,8 @@ spec:
               value: provisioner
             - name: BootstrapConnection__StateDirectory
               value: /data/bootstrap
+            - name: Bootstrap__ProtectionKeyDirectory
+              value: /data/bootstrap-protection
             - name: RootCredentials__Directory
               value: /data/root-credentials
             - name: RootCredentials__KeyDirectory

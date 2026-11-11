@@ -53,6 +53,14 @@ class PrerequisiteTests(unittest.TestCase):
         self.assertTrue(any("scoped credential missing" in x for x in issues))
         self.assertTrue(any("rerun provisioning" in x for x in issues))
 
+    def test_paused_web_allows_pending_pvc_but_admin_requires_bound(self):
+        items = [{"kind": "PersistentVolumeClaim", "metadata": {"name": name},
+                  "status": {"phase": "Pending"}} for name in gate.PVCS]
+        issues = gate.inspect(items, "production")
+        self.assertFalse(any(x.startswith("aethericforge-web-signin-data:") for x in issues))
+        self.assertTrue(any(x.startswith("aethericforge-admin-data:") for x in issues))
+        self.assertTrue(any(x.startswith("aetheric-provisioning-worker-data:") for x in issues))
+
     def test_malformed_secret_never_appears_in_diagnostics(self):
         artifact = consumer()
         artifact["Settings"] = {"Library:Enabled": {"Password": "sensitive-fixture-value"}}
