@@ -150,3 +150,34 @@ this PVC so sign-in cookies and in-flight callbacks survive pod replacement.
 Apply the encrypted web Secret with `scripts/apply-secrets.sh` before syncing.
 The exact callbacks are `https://aethericforge.ca/signin-oidc` and
 `https://www.aethericforge.ca/signin-oidc`; both logout callbacks are registered.
+
+## Preserve provisioning state during updates
+
+Update the existing Application in place. To pause reconciliation, disable
+Auto-Sync and terminate an active sync. To stop a crashing web container, disable
+Auto-Sync before scaling only the web Deployment to zero. Do not delete and
+recreate the Application as an upgrade procedure.
+
+The three application PVCs and five consumer Secrets carry
+`Prune=false,Delete=false` so ArgoCD retains them during pruning and Application
+deletion. These annotations must already be synced to the live resources to
+protect them. They do not protect against direct Kubernetes deletion, namespace
+deletion, or replacement/force operations. Intentional retirement requires a
+separate, explicit cleanup after a verified backup.
+
+Configure the Application from `argocd/application.yaml`, retaining its consumer
+Secret `ignoreDifferences` rules and `RespectIgnoreDifferences=true`. Creating an
+Application in the UI with only the repository and overlay path does not import
+these Application settings. Do not enable Replace or Force for this application.
+
+Before starting or updating full-campus hosting, verify the mounted Library,
+Archive, and Decisions consumer Secrets contain their provisioned
+`configuration.json`, and verify the existing admin/worker PVCs and their
+credential encryption keys are preserved. An empty Secret slot is not a restored
+consumer. The full-campus host requires Library even when its slot is empty.
+Restore the original complete consumer artifacts from a verified backup, or use
+the supported provisioning workflow; do not copy another institution's database
+credentials or weaken the credential policy. Do not sync full-campus workloads
+until this prerequisite is satisfied.
+
+See [ArgoCD resource retention options](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/).

@@ -4,6 +4,7 @@ metadata:
   name: aethericforge-decisions-consumer-v1
   namespace: aetheric-forge
   annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
     argocd.argoproj.io/sync-wave: "-10"
 type: Opaque
 data: {}
@@ -14,6 +15,7 @@ metadata:
   name: aethericforge-library-consumer
   namespace: aetheric-forge
   annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
     argocd.argoproj.io/sync-wave: "-10"
 type: Opaque
 data: {}
@@ -24,6 +26,7 @@ metadata:
   name: aethericforge-archive-consumer
   namespace: aetheric-forge
   annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
     argocd.argoproj.io/sync-wave: "-10"
 type: Opaque
 data: {}
@@ -34,6 +37,7 @@ metadata:
   name: aethericforge-decisions-consumer
   namespace: aetheric-forge
   annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
     argocd.argoproj.io/sync-wave: "-10"
 type: Opaque
 data: {}
@@ -44,6 +48,7 @@ metadata:
   name: aethericforge-parallel-you-consumer
   namespace: aetheric-forge
   annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
     argocd.argoproj.io/sync-wave: "-10"
 type: Opaque
 data: {}
