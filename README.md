@@ -29,11 +29,12 @@ Linux amd64 images are pinned by version and immutable digest:
   Full campus hosting mounts the new Decisions office under Administration,
   using its parent Workbench stage and scoped provisioned consumer. Immutable digest:
   `sha256:651056106c746b69e763061365170aff3f1e94ac2613b48cc0b91b5a73e24931`.
-- `ghcr.io/aetheric-forge/aetheric-admin:v2.0.7`, source commit
-  `506d598a14109db8b65632db004cd0672081b982` (aetheric-admin PR #21), adding
-  `/provisioning/institutions` to deploy pinned institutions (Library) through
-  `institution/deploy` 2.0. Immutable digest:
-  `sha256:443c05d5909cb8d0e139924e2a58a6e0178f054e6c3e83e63d9612c3e3c44a3e`.
+- `ghcr.io/aetheric-forge/aetheric-admin:sha-e3a8ab0`, candidate source commit
+  `e3a8ab0ff5ed34e86c0bffd24eea4b9689b786d8` (admin PR #22). Bootstrap
+  Admin API operations use the private Keycloak endpoint; public token acquisition
+  and browser issuer remain unchanged. Runtime PR #44 and components PR #6 are
+  pinned dependencies. These source PRs remain unmerged. Immutable digest:
+  `sha256:5a07e1c95f3b297be075607df06b7f893425aee066331b18b4a6de843467207a`.
 - `ghcr.io/aetheric-forge/aetheric-provisioning-worker:sha-4c46cce`, built from
   aetheric-runtime commit `4c46cce` (PR #43), which delivers Library, Archive and
   Decisions consumer configurations to their web Secrets. Immutable digest:

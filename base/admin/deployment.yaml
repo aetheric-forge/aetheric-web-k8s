@@ -20,7 +20,7 @@ spec:
         - name: aetheric-ghcr-secret
       containers:
         - name: aethericforge-admin
-          image: ghcr.io/aetheric-forge/aetheric-admin:v2.0.7@sha256:443c05d5909cb8d0e139924e2a58a6e0178f054e6c3e83e63d9612c3e3c44a3e
+          image: ghcr.io/aetheric-forge/aetheric-admin:sha-e3a8ab0@sha256:5a07e1c95f3b297be075607df06b7f893425aee066331b18b4a6de843467207a
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -36,6 +36,8 @@ spec:
               value: https://admin.int.aethericforge.ca
             - name: BootstrapConnection__ClientId
               value: provisioner
+            - name: BootstrapConnection__AdminApiBaseAddress
+              value: https://sso-admin.int.blackcircuit.ca/admin/
             - name: BootstrapConnection__StateDirectory
               value: /data/bootstrap
             - name: Bootstrap__ProtectionKeyDirectory
