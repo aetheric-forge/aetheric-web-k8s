@@ -10,6 +10,7 @@ Kustomize manifests for `www.aethericforge.ca`, `aethericforge.ca`, and
 - `base/worker/`: Operations provisioning worker and separate 1Gi persistent volume.
 - `overlays/dev/`: existing development website ingress.
 - `overlays/prod/`: production website and private admin ingress.
+- `overlays/bootstrap/`: the same production resources with web replicas set to zero while admin and the provisioning worker run.
 - `argocd/application.yaml`: Application targeting `overlays/prod`.
 
 Production serves both public names directly using `nginx-public` and `le-prod`.
@@ -181,3 +182,59 @@ credentials or weaken the credential policy. Do not sync full-campus workloads
 until this prerequisite is satisfied.
 
 See [ArgoCD resource retention options](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/).
+
+## Bootstrap, resume, and upgrade sequence
+
+Use one Application throughout, with the settings in `argocd/application.yaml`.
+For a fresh install or missing provisioning state, keep Auto-Sync disabled and
+select `overlays/bootstrap` as its Kustomize source path. This uses the production
+hosts, Secrets, and persistent storage, starts admin and Operations worker, and
+keeps web at zero replicas. Do not create a second Application for the production
+phase or sync `overlays/prod` concurrently.
+
+1. Preserve existing operator-managed configuration Secrets. Validate their
+   endpoints and scoped accounts rather than deleting them. Admin and worker
+   still require their configuration and broker Secrets before they can start.
+2. Restore bootstrap state, root credentials, and their ORIGINAL encryption key
+   together when they exist. Admin reuses matching saved state and credentials;
+   it opens `/setup` when required root credentials are missing. Corrupt,
+   undecryptable, or mismatched state requires operator intervention, not a reset.
+   A new cluster PVC does not automatically discover state in a local Docker
+   volume. Transfer it securely if reusing it; never commit plaintext credentials.
+   Application credentials in configuration Secrets are not provisioning roots.
+3. Open `https://admin.int.aethericforge.ca/setup` if requested, complete verified
+   setup, then use `/university` and institution provisioning. Review and submit
+   the current required definitions and bindings. Preserve institution identities
+   and existing resource ownership when reconciling infrastructure left behind
+   by a missing worker volume. Ownership conflicts require review; do not delete
+   shared databases or substitute another institution's credentials.
+4. Explicitly rerun the affected provisioning request when definitions, bindings,
+   required resources, or consumer configuration requirements change. The worker
+   fingerprints definitions/bindings into a plan identity and resumes successful
+   steps for that same plan from its checkpoints, requiring saved secrets to be
+   decryptable. Successful institution requests deliver consumer configuration
+   again, even when provisioning steps are already satisfied. Checkpoints alone
+   do not verify that an externally deleted resource still exists; reconcile
+   such drift deliberately. No web image update automatically submits a new plan.
+5. Run the read-only structural gate:
+
+   ```sh
+   python3 scripts/check-web-prerequisites.py --context blackcircuit-ca-platform-prod
+   ```
+
+   It returns nonzero for missing/unbound PVCs, missing campus credentials, empty
+   consumer slots, or mismatched consumer identity/environment/Decisions owner.
+   It prints only diagnostic names/codes, never Secret values. It is not a service
+   connectivity test, complete host schema validation, or proof that a previous
+   consumer plan satisfies new resource requirements. Review the submitted plan
+   and consumer delivery results and test the scoped service access as well.
+6. Only after provisioning and validation succeed, change the SAME Application
+   source path to `overlays/prod` and sync it. Check web startup and readiness,
+   then public pages and authenticated workflows. Re-enable automatic sync after
+   those checks. For ordinary updates with intact state and unchanged provisioning
+   requirements, keep using `overlays/prod`; do not repeat bootstrap or initialize
+   its state again.
+
+Offline gate tests: `python3 -m unittest discover -s scripts -p 'test_web_prerequisites.py'`.
+Both overlays can be checked without deployment using `kubectl kustomize` and
+`kubectl apply --dry-run=server -k overlays/bootstrap` (or `overlays/prod`).
