@@ -9,6 +9,7 @@ spec:
     repoURL: https://github.com/aetheric-forge/aetheric-web-k8s.git
     targetRevision: main
     path: overlays/prod
+    kustomize: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: aetheric-forge

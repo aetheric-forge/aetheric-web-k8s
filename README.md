@@ -101,6 +101,19 @@ kubectl rollout status deployment/aethericforge-web -n aetheric-forge
 kubectl rollout status deployment/aethericforge-admin -n aetheric-forge
 ```
 
+The source type must be **Kustomize**, with path `overlays/prod`. The Application
+manifest explicitly selects `spec.source.kustomize`. When configuring an existing
+Application in the UI, remove `spec.source.directory` (including any empty Jsonnet
+settings) before selecting Kustomize; ArgoCD must have only one explicit source type.
+Preserve the existing Application name rather than creating a second app for the
+same resources.
+
+If sync reports `The Kubernetes API could not find
+kustomize.config.k8s.io/Kustomization`, ArgoCD is treating `kustomization.yaml` as a
+cluster resource in Directory mode. This is a source-rendering error, not a missing
+CRD. Verify `kubectl kustomize overlays/prod` renders Deployments, Services, and
+Ingresses with no `kind: Kustomization` in the output before retrying sync.
+
 The Application retains automatic sync. Its live source path must be updated to
 `overlays/prod` by applying the Application manifest (or its parent GitOps app).
 Provision admin configuration and the pull Secret before activating that overlay.
