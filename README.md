@@ -240,3 +240,14 @@ phase or sync `overlays/prod` concurrently.
 Offline gate tests: `python3 -m unittest discover -s scripts -p 'test_web_prerequisites.py'`.
 Both overlays can be checked without deployment using `kubectl kustomize` and
 `kubectl apply --dry-run=server -k overlays/bootstrap` (or `overlays/prod`).
+
+## Operations broker credentials
+
+Admin imports `aetheric-provisioning-worker-broker` after
+`aethericforge-admin-config`, so its AMQP endpoint and credentials match the worker
+rather than stale copies in the general admin Secret. A previously saved encrypted
+`rabbitmq-amqp` entry still takes precedence. RabbitMQ management API credentials
+remain separate in the encrypted provisioning root store. The current University
+page does not expose the legacy RabbitMQ access form; do not direct operators to
+that absent control. Changes to Deployment environment require an admin restart;
+apply them after the operator preserves any circuit-local University draft.

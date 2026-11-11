@@ -49,6 +49,9 @@ spec:
           envFrom:
             - secretRef:
                 name: aethericforge-admin-config
+            # Messaging must use the same broker credentials as Operations worker.
+            - secretRef:
+                name: aetheric-provisioning-worker-broker
           startupProbe:
             tcpSocket:
               port: http
