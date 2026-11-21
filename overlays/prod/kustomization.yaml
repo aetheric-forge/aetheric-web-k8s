@@ -5,3 +5,17 @@ resources:
   - ../../base/admin
   - ../../base/worker
   - ingress.yaml
+patches:
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: aethericforge-web
+        namespace: aetheric-forge
+      spec:
+        template:
+          spec:
+            volumes:
+              - name: web-signin-data
+                persistentVolumeClaim:
+                  claimName: aethericforge-web-signin-data-zone-a
