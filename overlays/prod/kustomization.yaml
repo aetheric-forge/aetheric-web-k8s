@@ -19,3 +19,29 @@ patches:
               - name: web-signin-data
                 persistentVolumeClaim:
                   claimName: aethericforge-web-signin-data-zone-a
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: aethericforge-admin
+        namespace: aetheric-forge
+      spec:
+        template:
+          spec:
+            volumes:
+              - name: admin-data
+                persistentVolumeClaim:
+                  claimName: aethericforge-admin-data-zone-a
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: aetheric-provisioning-worker
+        namespace: aetheric-forge
+      spec:
+        template:
+          spec:
+            volumes:
+              - name: worker-data
+                persistentVolumeClaim:
+                  claimName: aetheric-provisioning-worker-data-zone-a
